@@ -1,0 +1,18 @@
+networks:
+  tor:
+    name: tor-network
+    driver: bridge
+
+services:
+  snowflake-proxy:
+    image: thetorproject/snowflake-proxy:latest
+    container_name: snowflake-proxy
+    networks:
+      - tor
+    restart: always
+    labels:
+      - homepage.group=Privacy
+      - homepage.name=Tor Snowflake
+      - homepage.icon=https://snowflake.torproject.org/static/images/tor-browser-icon.png
+      - homepage.href=https://snowflake.torproject.org/
+      - homepage.description=Free your connection

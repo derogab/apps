@@ -2,9 +2,6 @@ networks:
   homepage:
     name: homepage-network
     driver: bridge
-  tor:
-    name: tor-network
-    driver: bridge
 
 services:
   dockerproxy:
@@ -22,7 +19,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     networks:
       - homepage
-      - tor
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:2375/version"]
