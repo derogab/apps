@@ -5,7 +5,7 @@ networks:
 
 services:
   snowflake-proxy:
-    image: thetorproject/snowflake-proxy:latest
+    image: containers.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake:latest
     container_name: snowflake-proxy
     networks:
       - tor
