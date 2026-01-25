@@ -1,0 +1,123 @@
+networks:
+  cinema:
+    name: cinema-network
+    driver: bridge
+
+services:
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+      WEBUI_PORT: 8080
+      TORRENTING_PORT: 6881
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/qbittorrent/config:/config
+      - ./downloads:/downloads
+    networks:
+      - cinema
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=qBittorrent
+      - homepage.icon=https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/New_qBittorrent_Logo.svg/250px-New_qBittorrent_Logo.svg.png
+      - homepage.href=https://localhost:8080
+      - homepage.description=Free and reliable P2P Bittorrent client
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/radarr/config:/config
+      - ./media/movies:/movies
+      - ./downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    labels:
+      - homepage.group=Entertainment
+      - homepage.name=Radarr
+      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Radarr/icon.png
+      - homepage.href=http://localhost:7878
+      - homepage.description=Movie collection manager
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/sonarr/config:/config
+      - ./media/tvshows:/tv
+      - ./downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    labels:
+      - homepage.group=Entertainment
+      - homepage.name=Sonarr
+      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Sonarr/icon.png
+      - homepage.href=http://localhost:8989
+      - homepage.description=TV Show collection manager
+
+  prowlarr:
+    image: linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    labels:
+      - homepage.group=Entertainment
+      - homepage.name=Prowlarr
+      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Prowlarr/icon.png
+      - homepage.href=http://localhost:9696
+      - homepage.description=Indexer manager/proxy
+
+  jellyfin:
+    image: linuxserver/jellyfin:10.10.7
+    container_name: jellyfin
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/jellyfin/config:/config
+      - ./media/movies:/movies
+      - ./media/tvshows:/tvshows
+      - ./media/music:/music
+    devices:
+      - /dev/dri:/dev/dri
+    networks:
+      - cinema
+    ports:
+      - 8096:8096 # web interface in the local network.
+      - 7359:7359/udp # optional, allows clients to discover Jellyfin on the local network.
+      - 1900:1900/udp # optional, service discovery used by DNLA and clients.
+    restart: unless-stopped
+    labels:
+      - homepage.group=Entertainment
+      - homepage.name=Jellyfin
+      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyfin/icon.png
+      - homepage.href=http://localhost:8096
+      - homepage.description=Open-source media server
