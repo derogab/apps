@@ -1,0 +1,19 @@
+networks:
+  cloudflared:
+    name: cloudflared
+    driver: bridge
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    networks:
+      - cloudflared
+    restart: always
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    labels:
+      - homepage.group=Tools
+      - homepage.name=Cloudflare Tunnel
+      - homepage.icon=https://logos-world.net/wp-content/uploads/2022/04/Cloudflare-Emblem-700x394.png
+      - homepage.href=https://one.dash.cloudflare.com/
+      - homepage.description=A secure way to connect your resources to Cloudflare
