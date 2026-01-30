@@ -97,7 +97,7 @@ services:
       - homepage.description=Indexer manager/proxy
 
   jellyfin:
-    image: linuxserver/jellyfin:10.10.7
+    image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
       PUID: 1000 # default user id
