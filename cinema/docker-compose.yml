@@ -2,6 +2,9 @@ networks:
   cinema:
     name: cinema-network
     driver: bridge
+  cloudflared:
+    name: cloudflared
+    external: true
 
 services:
   qbittorrent:
@@ -110,6 +113,7 @@ services:
       - /dev/dri:/dev/dri
     networks:
       - cinema
+      - cloudflared
     ports:
       - 8096:8096 # web interface in the local network.
       - 7359:7359/udp # optional, allows clients to discover Jellyfin on the local network.

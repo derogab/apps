@@ -11,6 +11,11 @@ services:
       - cloudflared
     restart: always
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
     labels:
       - homepage.group=Tools
       - homepage.name=Cloudflare Tunnel
