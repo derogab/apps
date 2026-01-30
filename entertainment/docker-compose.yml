@@ -1,6 +1,6 @@
 networks:
-  cinema:
-    name: cinema-network
+  entertainment:
+    name: entertainment-network
     driver: bridge
   cloudflared:
     name: cloudflared
@@ -21,7 +21,7 @@ services:
       - ./data/qbittorrent/config:/config
       - ./downloads:/downloads
     networks:
-      - cinema
+      - entertainment
     ports:
       - 8080:8080
     restart: unless-stopped
@@ -112,7 +112,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     networks:
-      - cinema
+      - entertainment
       - cloudflared
     ports:
       - 8096:8096 # web interface in the local network.
