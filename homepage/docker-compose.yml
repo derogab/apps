@@ -16,7 +16,7 @@ services:
       - PING=1 # Allow access to viewing ping
       - POST=0 # Disallow any POST operations (effectively read-only)
     volumes:
-      - ${XDG_RUNTIME_DIR:-/var/run}/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     networks:
       - homepage
     restart: unless-stopped
