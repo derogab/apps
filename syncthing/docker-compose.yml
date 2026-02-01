@@ -1,0 +1,36 @@
+networks:
+  syncthing:
+    name: syncthing-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.24.0.0/24
+
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    hostname: syncthing
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/syncthing/config:/config
+      - ./sync:/sync
+    networks:
+      syncthing:
+        ipv4_address: 172.24.0.2
+    ports:
+      - 8384:8384 # Web UI
+      - 22000:22000/tcp # TCP file transfers
+      - 22000:22000/udp # QUIC file transfers
+      - 21027:21027/udp # Discovery
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=Syncthing
+      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Syncthing/icon.png
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8384
+      - homepage.description=Continuous file synchronization
