@@ -29,7 +29,7 @@ services:
       - homepage.group=Tools
       - homepage.name=qBittorrent
       - homepage.icon=https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/New_qBittorrent_Logo.svg/250px-New_qBittorrent_Logo.svg.png
-      - homepage.href=https://localhost:8080
+      - homepage.href=https://${HOSTNAME:-localhost}${HOSTNAME:+.local}:8080
       - homepage.description=Free and reliable P2P Bittorrent client
 
   radarr:
@@ -53,7 +53,7 @@ services:
       - homepage.group=Entertainment
       - homepage.name=Radarr
       - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Radarr/icon.png
-      - homepage.href=http://localhost:7878
+      - homepage.href=http://${HOSTNAME:-localhost}${HOSTNAME:+.local}:7878
       - homepage.description=Movie collection manager
 
   sonarr:
@@ -77,7 +77,7 @@ services:
       - homepage.group=Entertainment
       - homepage.name=Sonarr
       - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Sonarr/icon.png
-      - homepage.href=http://localhost:8989
+      - homepage.href=http://${HOSTNAME:-localhost}${HOSTNAME:+.local}:8989
       - homepage.description=TV Show collection manager
 
   prowlarr:
@@ -99,7 +99,7 @@ services:
       - homepage.group=Entertainment
       - homepage.name=Prowlarr
       - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Prowlarr/icon.png
-      - homepage.href=http://localhost:9696
+      - homepage.href=http://${HOSTNAME:-localhost}${HOSTNAME:+.local}:9696
       - homepage.description=Indexer manager/proxy
 
   jellyfin:
@@ -129,5 +129,5 @@ services:
       - homepage.group=Entertainment
       - homepage.name=Jellyfin
       - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyfin/icon.png
-      - homepage.href=http://localhost:8096
+      - homepage.href=http://${HOSTNAME:-localhost}${HOSTNAME:+.local}:8096
       - homepage.description=Open-source media server
