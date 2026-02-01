@@ -31,6 +31,6 @@ services:
     labels:
       - homepage.group=Tools
       - homepage.name=Syncthing
-      - homepage.icon=https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Syncthing/icon.png
+      - homepage.icon=https://avatars.githubusercontent.com/u/7628018
       - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8384
       - homepage.description=Continuous file synchronization
