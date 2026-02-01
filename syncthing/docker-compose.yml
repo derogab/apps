@@ -8,7 +8,7 @@ networks:
 
 services:
   syncthing:
-    image: lscr.io/linuxserver/syncthing:latest
+    image: ghcr.io/syncthing/syncthing:latest
     container_name: syncthing
     hostname: syncthing
     environment:
@@ -17,7 +17,7 @@ services:
     env_file:
       - ../.env
     volumes:
-      - ./data/syncthing/config:/config
+      - ./data/syncthing/config:/var/syncthing
       - ./sync:/sync
     networks:
       syncthing:
@@ -28,6 +28,11 @@ services:
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Discovery
     restart: unless-stopped
+    healthcheck:
+      test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
     labels:
       - homepage.group=Tools
       - homepage.name=Syncthing
