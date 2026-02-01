@@ -2,13 +2,17 @@ networks:
   cloudflared:
     name: cloudflared
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 
 services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     networks:
-      - cloudflared
+      cloudflared:
+        ipv4_address: 172.20.0.2
     restart: always
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     labels:

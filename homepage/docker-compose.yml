@@ -2,6 +2,9 @@ networks:
   homepage:
     name: homepage-network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
 
 services:
   dockerproxy:
@@ -18,7 +21,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     networks:
-      - homepage
+      homepage:
+        ipv4_address: 172.21.0.2
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:2375/version"]
@@ -40,7 +44,8 @@ services:
       - ./config:/app/config
       - ./assets:/app/public/assets
     networks:
-      - homepage
+      homepage:
+        ipv4_address: 172.21.0.3
     depends_on:
       dockerproxy:
         condition: service_healthy

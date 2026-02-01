@@ -2,13 +2,17 @@ networks:
   tor:
     name: tor-network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/24
 
 services:
   snowflake-proxy:
     image: containers.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake:latest
     container_name: snowflake-proxy
     networks:
-      - tor
+      tor:
+        ipv4_address: 172.23.0.2
     restart: always
     labels:
       - homepage.group=Privacy

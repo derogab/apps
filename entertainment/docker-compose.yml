@@ -2,6 +2,9 @@ networks:
   entertainment:
     name: entertainment-network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
   cloudflared:
     name: cloudflared
     external: true
@@ -21,7 +24,8 @@ services:
       - ./data/qbittorrent/config:/config
       - ./downloads:/downloads
     networks:
-      - entertainment
+      entertainment:
+        ipv4_address: 172.22.0.2
     ports:
       - 8080:8080
     restart: unless-stopped
@@ -45,7 +49,8 @@ services:
       - ./media/movies:/movies
       - ./downloads:/downloads
     networks:
-      - entertainment
+      entertainment:
+        ipv4_address: 172.22.0.3
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -69,7 +74,8 @@ services:
       - ./media/tvshows:/tv
       - ./downloads:/downloads
     networks:
-      - entertainment
+      entertainment:
+        ipv4_address: 172.22.0.4
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -91,7 +97,8 @@ services:
     volumes:
       - ./data/prowlarr/config:/config
     networks:
-      - entertainment
+      entertainment:
+        ipv4_address: 172.22.0.5
     ports:
       - 9696:9696
     restart: unless-stopped
@@ -118,8 +125,10 @@ services:
     devices:
       - /dev/dri:/dev/dri
     networks:
-      - entertainment
-      - cloudflared
+      entertainment:
+        ipv4_address: 172.22.0.6
+      cloudflared:
+        ipv4_address: 172.20.0.3
     ports:
       - 8096:8096 # web interface in the local network.
       - 7359:7359/udp # optional, allows clients to discover Jellyfin on the local network.
