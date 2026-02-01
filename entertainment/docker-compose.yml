@@ -33,7 +33,7 @@ services:
       - homepage.group=Tools
       - homepage.name=qBittorrent
       - homepage.icon=https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/New_qBittorrent_Logo.svg/250px-New_qBittorrent_Logo.svg.png
-      - homepage.href=https://${CUSTOM_LOCAL_HOST:-localhost}:8080
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8080
       - homepage.description=Free and reliable P2P Bittorrent client
 
   radarr:
