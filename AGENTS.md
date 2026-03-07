@@ -11,6 +11,7 @@ This repository contains configuration files for personal containerized apps, or
 
 - Use Docker Compose Specification syntax; do not add top-level `version`.
 - Keep one compose file per app: `<app>/docker-compose.yml`.
+- Create a `.gitignore` file in each app directory ignoring `data/` and other persistent directories.
 - Keep standard top-level key order.
 - Every service must define `container_name` and `restart`.
 - Preserve existing behavior unless the task explicitly requests a change.
@@ -26,6 +27,11 @@ This repository contains configuration files for personal containerized apps, or
 - Never renumber existing IPs unless an explicit migration is requested.
 - For cross-stack connectivity, attach existing shared networks with `external: true`.
 
+## Port management
+
+- Before assigning a host port, check all existing compose files to ensure it's not already used.
+- Use ports in the `80xx` range for web UIs where possible.
+
 ## Environment model
 
 - Root `.env` (`apps/.env`) is the shared environment.
@@ -34,11 +40,13 @@ This repository contains configuration files for personal containerized apps, or
 - Use `${VAR}` for required values and `${VAR:-default}` for optional defaults.
 - Never hardcode secrets or tokens in compose files.
 - Keep `PUID: 1000` and `PGID: 1000` always (some images may ignore unsupported keys).
+- Do not hardcode `TZ` in compose files; rely on `env_file` if timezone configuration is needed.
 
 ## Storage and paths
 
 - Use relative bind mounts from the app directory.
 - Keep persistent data app-local by default (e.g. `./data`, `./media`, `./downloads`, `./models`).
+- Use service-specific subdirectories: `./data/<service-name>:/container/path` for future-proofing.
 - Use read-only mounts for sensitive host paths whenever possible.
 - Avoid absolute host paths unless there is no safe alternative.
 
@@ -56,7 +64,8 @@ This repository contains configuration files for personal containerized apps, or
   - `homepage.icon`
   - `homepage.href`
   - `homepage.description`
-- For local links, prefer `http://${CUSTOM_LOCAL_HOST:-localhost}:<port>`.
+- When port is exposed: use `http://${CUSTOM_LOCAL_HOST:-localhost}:<port>`.
+- When no port exposed (e.g., Cloudflared-only, bots): use official service URL or GitHub repo URL.
 - Reuse existing groups: `Tools`, `Entertainment`, `Bots`, `Privacy`.
 - Add new groups only when needed and keep naming stable.
 

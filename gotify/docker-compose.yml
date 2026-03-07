@@ -1,0 +1,36 @@
+networks:
+  gotify:
+    name: gotify-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+  cloudflared:
+    name: cloudflared
+    external: true
+
+services:
+  gotify:
+    image: ghcr.io/gotify/server:latest
+    container_name: gotify
+    environment:
+      PUID: 1000
+      PGID: 1000
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/gotify:/app/data
+    ports:
+      - 8094:80
+    networks:
+      gotify:
+        ipv4_address: 172.28.0.2
+      cloudflared:
+        ipv4_address: 172.20.0.4
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=Gotify
+      - homepage.icon=https://raw.githubusercontent.com/gotify/logo/master/gotify-logo.png
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8094
+      - homepage.description=A simple server for sending and receiving messages
