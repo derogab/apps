@@ -32,6 +32,7 @@ services:
     container_name: summarygram
     env_file:
       - ../.env
+      - ./.env
     environment:
       PUID: 1000 # default user id
       PGID: 1000 # default group id
