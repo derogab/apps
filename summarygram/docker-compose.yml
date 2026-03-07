@@ -1,0 +1,55 @@
+networks:
+  summarygram:
+    name: summarygram-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/24
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: summarygram-redis
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+    command: redis-server
+    volumes:
+      - ./data/redis:/data
+    networks:
+      summarygram:
+        ipv4_address: 172.26.0.2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  summarygram:
+    image: ghcr.io/derogab/summarygram:latest
+    container_name: summarygram
+    env_file:
+      - ../.env
+    environment:
+      PUID: 1000 # default user id
+      PGID: 1000 # default group id
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - ./models:/usr/src/app/models
+    networks:
+      summarygram:
+        ipv4_address: 172.26.0.3
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    labels:
+      - homepage.group=Bots
+      - homepage.name=SummaryGram
+      - homepage.icon=https://raw.githubusercontent.com/derogab/summarygram/master/.github/assets/logo.png
+      - homepage.href=https://github.com/derogab/summarygram
+      - homepage.description=Telegram bot that summarizes group chats
