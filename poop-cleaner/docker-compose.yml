@@ -1,15 +1,15 @@
 networks:
-  summarygram:
-    name: summarygram-network
+  poop-cleaner:
+    name: poop-cleaner-network
     driver: bridge
     ipam:
       config:
-        - subnet: 172.26.0.0/24
+        - subnet: 172.27.0.0/24
 
 services:
   redis:
     image: redis:7-alpine
-    container_name: summarygram-redis
+    container_name: poop-cleaner-redis
     environment:
       PUID: 1000 # default user id
       PGID: 1000 # default group id
@@ -17,8 +17,8 @@ services:
     volumes:
       - ./data/redis:/data
     networks:
-      summarygram:
-        ipv4_address: 172.26.0.2
+      poop-cleaner:
+        ipv4_address: 172.27.0.2
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -27,28 +27,27 @@ services:
       retries: 5
       start_period: 10s
 
-  summarygram:
-    image: ghcr.io/derogab/summarygram:latest
-    container_name: summarygram
+  poop-cleaner:
+    image: ghcr.io/derogab/poop-cleaner:latest
+    container_name: poop-cleaner
     env_file:
       - ../.env
       - ./.env
     environment:
       PUID: 1000 # default user id
       PGID: 1000 # default group id
-      REDIS_URL: redis://redis:6379
-    volumes:
-      - ./models:/usr/src/app/models
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
-      summarygram:
-        ipv4_address: 172.26.0.3
+      poop-cleaner:
+        ipv4_address: 172.27.0.3
     depends_on:
       redis:
         condition: service_healthy
     restart: unless-stopped
     labels:
       - homepage.group=Bots
-      - homepage.name=SummaryGram
-      - homepage.icon=https://raw.githubusercontent.com/derogab/summarygram/master/.github/assets/logo.png
-      - homepage.href=https://github.com/derogab/summarygram
-      - homepage.description=Telegram bot that summarizes group chats
+      - homepage.name=Poop Cleaner
+      - homepage.icon=https://raw.githubusercontent.com/derogab/poop-cleaner/master/.github/assets/logo.png
+      - homepage.href=https://github.com/derogab/poop-cleaner
+      - homepage.description=Telegram bot that cleans spam from group chats
