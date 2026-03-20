@@ -1,3 +1,5 @@
+name: gotify
+
 networks:
   gotify:
     name: gotify-network

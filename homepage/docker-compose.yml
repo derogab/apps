@@ -1,3 +1,5 @@
+name: homepage
+
 networks:
   homepage:
     name: homepage-network

@@ -1,3 +1,5 @@
+name: poop-cleaner
+
 networks:
   poop-cleaner:
     name: poop-cleaner-network

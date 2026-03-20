@@ -1,3 +1,5 @@
+name: snowflake
+
 networks:
   tor:
     name: tor-network

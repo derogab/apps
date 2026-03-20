@@ -1,3 +1,5 @@
+name: adguard
+
 networks:
   adguard:
     name: adguard-network
