@@ -1,0 +1,43 @@
+name: freshrss
+
+networks:
+  freshrss:
+    name: freshrss-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/24
+  cloudflared:
+    name: cloudflared
+    external: true
+
+services:
+  freshrss:
+    image: freshrss/freshrss:alpine
+    container_name: freshrss
+    environment:
+      PUID: 1000
+      PGID: 1000
+      CRON_MIN: '3,33'
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/freshrss/data:/var/www/FreshRSS/data
+      - ./data/freshrss/extensions:/var/www/FreshRSS/extensions
+    ports:
+      - 8097:80
+    logging:
+      options:
+        max-size: 10m
+    networks:
+      freshrss:
+        ipv4_address: 172.29.0.2
+      cloudflared:
+        ipv4_address: 172.20.0.5
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=FreshRSS
+      - homepage.icon=https://freshrss.org/images/icon.svg
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8097
+      - homepage.description=A free, self-hostable feeds aggregator
