@@ -22,4 +22,4 @@ services:
       - homepage.name=Cloudflare Tunnel
       - homepage.icon=https://logos-world.net/wp-content/uploads/2022/04/Cloudflare-Emblem-700x394.png
       - homepage.href=https://one.dash.cloudflare.com/
-      - homepage.description=A secure way to connect your resources to Cloudflare
+      - homepage.description=A secure way to connect your resources
