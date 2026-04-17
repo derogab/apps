@@ -20,10 +20,18 @@ services:
       PGID: 1000
     volumes:
       - ./data/hermes-agent:/opt/data
+    ports:
+      - 8642:8642
     networks:
       hermes-agent:
         ipv4_address: 172.30.0.2
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8642/health', timeout=2)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     command: gateway run
     deploy:
       resources:
@@ -34,5 +42,5 @@ services:
       - homepage.group=Bots
       - homepage.name=Hermes Agent
       - homepage.icon=https://hermes-agent.nousresearch.com/docs/img/logo.png
-      - homepage.href=https://github.com/NousResearch/hermes-agent
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8642
       - homepage.description=Autonomous AI agent
