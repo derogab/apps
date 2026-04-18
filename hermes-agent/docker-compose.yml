@@ -22,8 +22,6 @@ services:
       API_SERVER_HOST: 0.0.0.0
     volumes:
       - ./data/hermes-agent:/opt/data
-    ports:
-      - 8642:8642
     networks:
       hermes-agent:
         ipv4_address: 172.30.0.2
@@ -40,9 +38,37 @@ services:
         limits:
           memory: 2G
           cpus: "2.0"
+
+  dashboard:
+    image: nousresearch/hermes-agent:latest
+    container_name: hermes-dashboard
+    env_file:
+      - ../.env
+      - ./.env
+    environment:
+      PUID: 1000
+      PGID: 1000
+      GATEWAY_HEALTH_URL: http://hermes-agent:8642
+    volumes:
+      - ./data/hermes-agent:/opt/data
+    ports:
+      - 9119:9119
+    networks:
+      hermes-agent:
+        ipv4_address: 172.30.0.3
+    depends_on:
+      hermes-agent:
+        condition: service_healthy
+    restart: unless-stopped
+    command: dashboard --host 0.0.0.0
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
     labels:
       - homepage.group=Bots
       - homepage.name=Hermes Agent
       - homepage.icon=https://hermes-agent.nousresearch.com/docs/img/logo.png
-      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8642
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:9119
       - homepage.description=Autonomous AI agent
