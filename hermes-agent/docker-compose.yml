@@ -60,7 +60,7 @@ services:
       hermes-agent:
         condition: service_healthy
     restart: unless-stopped
-    command: dashboard --host 0.0.0.0
+    command: dashboard --host 0.0.0.0 --insecure
     deploy:
       resources:
         limits:
