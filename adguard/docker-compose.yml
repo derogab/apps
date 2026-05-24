@@ -29,7 +29,7 @@ services:
       - 8095:3000/tcp
     restart: unless-stopped
     labels:
-      - homepage.group=Tools
+      - homepage.group=Smart Home
       - homepage.name=AdGuard Home
       - homepage.icon=https://avatars.githubusercontent.com/u/8361145
       - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8095
