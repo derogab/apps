@@ -1,0 +1,39 @@
+name: home-assistant
+
+networks:
+  home-assistant:
+    name: home-assistant-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
+  cloudflared:
+    name: cloudflared
+    external: true
+
+services:
+  home-assistant:
+    # `:stable` is the upstream release channel; project does not publish `:latest`.
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: home-assistant
+    environment:
+      PUID: 1000
+      PGID: 1000
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/home-assistant:/config
+    ports:
+      - 8098:8123
+    networks:
+      home-assistant:
+        ipv4_address: 172.31.0.2
+      cloudflared:
+        ipv4_address: 172.20.0.6
+    restart: unless-stopped
+    labels:
+      - homepage.group=Smart Home
+      - homepage.name=Home Assistant
+      - homepage.icon=https://avatars.githubusercontent.com/u/13844975
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8098
+      - homepage.description=Open source home automation platform

@@ -66,7 +66,7 @@ This repository contains configuration files for personal containerized apps, or
   - `homepage.description`
 - When port is exposed: use `http://${CUSTOM_LOCAL_HOST:-localhost}:<port>`.
 - When no port exposed (e.g., Cloudflared-only, bots): use official service URL or GitHub repo URL.
-- Reuse existing groups: `Tools`, `Entertainment`, `Bots`, `Privacy`.
+- Reuse existing groups: `Tools`, `Entertainment`, `Bots`, `Privacy`, `Smart Home`.
 - Add new groups only when needed and keep naming stable.
 
 ## Security posture
