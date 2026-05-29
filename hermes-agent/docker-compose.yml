@@ -28,7 +28,6 @@ services:
       HERMES_DASHBOARD_INSECURE: 1
     volumes:
       - ./data/hermes-agent:/opt/data
-    command: ["gateway", "run"]
     ports:
       - 9119:9119
     networks:
