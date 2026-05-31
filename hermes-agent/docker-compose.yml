@@ -34,7 +34,7 @@ services:
         ipv4_address: 172.30.0.2
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8642/health', timeout=2)"]
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9119/api/status', timeout=2)"]
       interval: 30s
       timeout: 5s
       retries: 3
