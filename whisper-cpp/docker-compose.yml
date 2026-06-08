@@ -29,6 +29,12 @@ services:
       whisper-cpp:
         ipv4_address: 172.32.0.2
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     labels:
       - homepage.group=Tools
       - homepage.name=whisper.cpp
