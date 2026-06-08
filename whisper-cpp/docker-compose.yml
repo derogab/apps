@@ -17,6 +17,7 @@ services:
       PGID: 1000
     env_file:
       - ../.env
+      - .env
     volumes:
       - ./data/models:/models
     command: whisper-server --host 0.0.0.0 --port 8080 -m ${WHISPER_CPP_MODEL:-/app/models/ggml-base.en.bin}
