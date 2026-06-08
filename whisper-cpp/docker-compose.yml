@@ -33,5 +33,5 @@ services:
       - homepage.group=Tools
       - homepage.name=whisper.cpp
       - homepage.icon=https://avatars.githubusercontent.com/u/134263123?v=4
-      - homepage.href=https://github.com/ggml-org/whisper.cpp
+      - homepage.href=http://${CUSTOM_LOCAL_HOST:-localhost}:8181
       - homepage.description=High-performance speech-to-text inference
