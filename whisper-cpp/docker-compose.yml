@@ -22,7 +22,7 @@ services:
       - ./data/models:/models
     entrypoint: ["bash", "-c"]
     command:
-      - exec /app/build/bin/whisper-server --host 0.0.0.0 --port 8080 -m "$${WHISPER_CPP_MODEL:-/app/models/ggml-base.en.bin}"
+      - exec /app/build/bin/whisper-server --host 0.0.0.0 --port 8080 -m "$${WHISPER_CPP_MODEL:-/models/ggml-base.en.bin}"
     ports:
       - 8181:8080
     networks:
