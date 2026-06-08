@@ -1,0 +1,34 @@
+name: whisper-cpp
+
+networks:
+  whisper-cpp:
+    name: whisper-cpp-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.32.0.0/24
+
+services:
+  whisper-cpp:
+    image: whisper.cpp:main
+    container_name: whisper-cpp
+    environment:
+      PUID: 1000
+      PGID: 1000
+    env_file:
+      - ../.env
+    volumes:
+      - ./data/models:/models
+    command: whisper-server --host 0.0.0.0 --port 8080 -m ${WHISPER_CPP_MODEL:-/app/models/ggml-base.en.bin}
+    ports:
+      - 8080:8080
+    networks:
+      whisper-cpp:
+        ipv4_address: 172.32.0.2
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=whisper.cpp
+      - homepage.icon=https://avatars.githubusercontent.com/u/134263123?v=4
+      - homepage.href=https://github.com/ggml-org/whisper.cpp
+      - homepage.description=High-performance speech-to-text inference
