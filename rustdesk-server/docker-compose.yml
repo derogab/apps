@@ -19,7 +19,7 @@ services:
       - ../.env
     command: hbbs -r ${CUSTOM_LOCAL_HOST:-localhost}:21117
     volumes:
-      - ./data:/root
+      - ./data/rustdesk-server:/root
     ports:
       - 21115:21115
       - 21116:21116
@@ -48,7 +48,7 @@ services:
       - ../.env
     command: hbbr
     volumes:
-      - ./data:/root
+      - ./data/rustdesk-server:/root
     ports:
       - 21117:21117
       - 21119:21119
