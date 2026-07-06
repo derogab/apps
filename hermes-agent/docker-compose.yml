@@ -23,6 +23,7 @@ services:
       HERMES_DASHBOARD: 1
       HERMES_DASHBOARD_HOST: 0.0.0.0
       HERMES_DASHBOARD_PORT: 9119
+      HERMES_DASHBOARD_BASIC_AUTH_SECRET: $(openssl rand -base64 32)
 
     volumes:
       - ./data/hermes-agent:/opt/data
