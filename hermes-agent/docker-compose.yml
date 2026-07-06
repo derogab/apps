@@ -23,7 +23,7 @@ services:
       HERMES_DASHBOARD: 1
       HERMES_DASHBOARD_HOST: 0.0.0.0
       HERMES_DASHBOARD_PORT: 9119
-      HERMES_DASHBOARD_INSECURE: 1
+
     volumes:
       - ./data/hermes-agent:/opt/data
     command: ["gateway", "run"]
